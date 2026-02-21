@@ -54,10 +54,18 @@ class DeFiMonitor:
             response.raise_for_status()
             data = response.json()
 
+            # Extract the most recent TVL value from the list
+            tvl_data = data.get('tvl', [])
+            if isinstance(tvl_data, list) and len(tvl_data) > 0:
+                # Get the most recent entry (last in the list)
+                latest_tvl = tvl_data[-1]['totalLiquidityUSD']
+            else:
+                latest_tvl = 0
+
             return {
                 'protocol': protocol,
                 'name': self.protocols[protocol]['name'],
-                'tvl': data.get('tvl', 0),
+                'tvl': latest_tvl,
                 'tvl_change_1d': data.get('change_1d', 0),
                 'tvl_change_7d': data.get('change_7d', 0),
                 'timestamp': datetime.now().isoformat()
