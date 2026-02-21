@@ -1,0 +1,90 @@
+# DeFi Monitor Configuration
+
+# Protocol definitions
+protocols:
+  - name: aave
+    defillama_slug: aave-v3
+    coingecko_id: aave
+    symbol: AAVE
+    description: "Aave V3 - Decentralized lending protocol"
+
+  - name: lido
+    defillama_slug: lido
+    coingecko_id: lido-dao
+    symbol: LDO
+    description: "Lido - Liquid staking protocol"
+
+  - name: eigenlayer
+    defillama_slug: eigenlayer
+    coingecko_id: eigenlayer
+    symbol: EIGEN
+    description: "EigenLayer - Restaking protocol"
+
+# Alert configuration
+alerts:
+  enabled: true
+  price_change_threshold: 5.0  # Percentage change to trigger alert
+  tvl_change_threshold: 10.0   # Percentage change to trigger alert
+  apy_change_threshold: 1.0    # APY change percentage to trigger alert
+
+  # Alert methods (true = enabled)
+  discord_webhook: false
+  email: false
+  console: true
+
+  # Discord webhook URL (if enabled)
+  discord_webhook_url: ""  # Set in .env
+
+  # Email settings (if enabled)
+  email_to: ""  # Set in .env
+  email_from: ""  # Set in .env
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+
+# Monitoring settings
+monitoring:
+  interval: 300  # Seconds between checks (default: 5 minutes)
+  max_retries: 3  # Number of retries on API failure
+  timeout: 30  # Request timeout in seconds
+
+# API settings
+apis:
+  defillama:
+    base_url: "https://api.llama.fi"
+    rate_limit: 100  # Requests per minute
+
+  coingecko:
+    base_url: "https://api.coingecko.com/api/v3"
+    rate_limit: 30  # Requests per minute (free tier)
+    api_key: ""  # Set in .env for Pro API
+
+  web3:
+    rpc_url: "https://eth.llamarpc.com"  # Default free RPC
+    timeout: 30
+
+# Visualization settings
+visualization:
+  enabled: true
+  chart_theme: "dark_background"  # Options: dark_background, seaborn-v0_8-dark, etc.
+  chart_size: [12, 8]  # Width, height in inches
+  save_format: "png"  # Options: png, svg, pdf
+  dpi: 150
+
+  # Report settings
+  include_trends: true
+  include_comparison: true
+  include_stats: true
+
+# Data storage
+storage:
+  enabled: true
+  data_dir: "data"
+  report_dir: "reports"
+  history_days: 30  # Days of historical data to keep
+
+# Logging
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  file: "logs/defi_monitor.log"
+  max_size_mb: 10
+  backup_count: 5
